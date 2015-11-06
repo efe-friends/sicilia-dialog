@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>弹框示例</title>
+    <link rel="stylesheet" href="../src/dialog.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        @media screen and (min-width: 320px) {html{font-size:312.5%;}}       
+        @media screen and (min-width: 360px) {html{font-size:351.5625%;}}  
+        @media screen and (min-width: 375px) {html{font-size:366.211%;}}     
+        @media screen and (min-width: 400px) {html{font-size:390.625%;}} 
+        @media screen and (min-width: 414px) {html{font-size:404.2969%;}} 
+        @media screen and (min-width: 440px) {html{font-size:429.6875%;}} 
+        @media screen and (min-width: 480px) {html{font-size:468.75%;}} 
+        @media screen and (min-width: 520px) {html{font-size:507.8125%;}}
+        @media screen and (min-width: 560px) {html{font-size:546.875%;}} 
+        @media screen and (min-width: 600px) {html{font-size:585.9375%;}}  
+        @media screen and (min-width: 640px) {
+            html{font-size:625%;}
+        }
+        body {
+            font-size: .28rem;
+            line-height: 1;
+        }
+        a {
+            outline: none;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; 
+        }
+        .container {
+            padding: .3rem;
+        }
+        .group {
+            margin-bottom: .4rem;
+        }
+        .group .title {
+            margin-bottom: .1rem;
+        }
+        .code {
+            margin-bottom: .1rem;
+        }
+        code, pre {
+            max-width: 100%;
+            display: inline-block;
+            font-size: .28rem;
+            padding: .2rem;
+            overflow-x: auto;
+            border: 1px solid #dedede;
+            box-sizing: border-box;
+        }
+        .img {
+            margin-bottom: .1rem;
+            width: 3rem;
+        }
+        .btn {
+            display: inline-block;
+            font-size: .28rem;
+            background-color: #f7f7f7;
+            padding: .15rem .4rem;
+            border-radius: .05rem;
+            color: #777;
+            text-decoration: none;
+            border: 1px solid #dedede;
+        }
+        .btn:active {
+            background-color: #f0f0f0;
+        }
+
+        .dark-style {
+            padding: 0 .3rem;
+        }
+
+        .dark-style .modal-dialog {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .global-modal-loading .modal-dialog {
+            background: none;
+        }
+
+        .dark-style .modal-footer {
+            border-top: none;
+            margin: 0 .15rem .25rem;
+        }
+
+        .dark-style .modal-footer .flex{
+            margin: 0 .1rem;
+        }
+
+        .dark-style .modal-footer .modal-btn {
+            color: #fff;
+            border-right: none;
+            border-radius: .05rem;
+            background-color: #14CA7E;
+        }
+
+        .dark-style .modal-footer .modal-btn:active {
+            color: #fff;
+            background-color: #24DA8E;
+        }
+
+        .global-modal .modal-footer .gender-m {
+            color: #fff;
+            background-color: #3879DC;
+        }
+        .global-modal .modal-footer .gender-f {
+            color: #fff;
+            background-color: #EA16D0;
+        }
+        .global-modal .modal-footer .gender-unkown {
+            color: #fff;
+            background-color: #60CC6D;
+        }
+        .warning-alert {
+            padding: 0 .3rem;
+        }
+        .warning-alert .modal-dialog {
+            color: #333;
+            background-color: #EFF597;
+        }
+        .warning-alert .modal-footer {
+            border-top: none;
+        }
+        .warning-alert .modal-footer .modal-btn {   
+            color: #fff;
+            border-right: none;
+            background-color: #F5D225;
+        }
+
+        .exotic-confirm {
+            padding: 0 .3rem;
+        }
+        .exotic-confirm .modal-dialog {
+            color: #fff;
+            background-color: #3E41B5;
+        }
+        .exotic-confirm .modal-footer {
+            border-top: none;
+        }
+        .exotic-confirm .modal-footer .modal-btn {   
+            color: #fff;
+            border-right: none;
+            background-color: #F71308;
+        }
+        .exotic-confirm .modal-footer .modal-btn-primary {   
+            background-color: #06C51E;
+        }
+    </style>
+    <script src="http://h5.edaijia.cn/core/libs/zepto.min.js"></script>
+    <script src="http://h5.edaijia.cn/core/utils/artTemplate.js"></script>
+    <script src="../src/dialog.js?t=21312"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="group">
+            <p class="title">自定义样式，整个弹框控件生效</p>
+            <div class="code">
+                <pre>
+$.dialog.customStyle('dark-style');</pre>   
+            </div>
+            <p>
+                <a href="javascript:" class="btn" id="btnStyle">自定义弹框风格</a>
+                <a href="javascript:" class="btn" id="btnDefaultStyle">恢复默认</a>
+            </p>
+        </div>
+        <div class="group">
+            <div class="code">
+                <pre>
+$.alert('哈喽，我是弹框');</pre>   
+            </div>
+            <p><a href="javascript:" class="btn" id="btn1">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+$.alert({
+    className: "warning-alert",
+    content: "通过设置弹框样式名称来自定义样式"
+});</pre>   
+            </div>
+            <p><a href="javascript:" class="btn" id="btnDark">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+$.confirm('是否确认要执行此操作？', function(r) {
+    if(r) {
+        $.alert('你点击了确定按钮');
+    } else {
+        $.alert('你点击了取消按钮');
+    }
+});</pre>
+            </div>
+            <p><a href="javascript:" class="btn" id="btn2">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+$.confirm({
+    className: "exotic-confirm",
+    content: "通过设置弹框样式名称来自定义样式"
+});</pre>   
+            </div>
+            <p><a href="javascript:" class="btn" id="btnDarkConfirm">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+$.confirm('点击确定按钮关闭此对话框', function(r) {
+    if(!r) {
+        $.alert('你必须点击确认按钮才能关闭');
+        return false;
+    }
+});</pre>   
+            </div>
+            <p><a href="javascript:" class="btn" id="btn3">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+$.dialog({
+    content: '请问你的性别是？',
+    btns: [
+        {
+            className: 'gender-m',
+            text: '男',
+            value: 'M'
+        },
+        {
+            className: 'gender-f',
+            text: '女',
+            value: 'F'
+        },
+        {
+            className: 'gender-unkown',
+            text: '未知',
+            value: 'Unkown'
+        }
+    ],
+    btnFn: function(btn) {
+        alert('你是' + btn.text + '的');
+    }
+});</pre>   
+            </div>
+            <p><a href="javascript:" class="btn" id="btn4">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+var loading = $.loading();
+setTimeout(function() {
+    loading.destroy();
+}, 3000)</pre>  
+            </div>
+            <p><a href="javascript:" class="btn" id="btn5">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+$.success("操作已完成");</pre>  
+            </div>
+            <p><a href="javascript:" class="btn" id="btn6">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+$.error("操作失败，请重试");</pre> 
+            </div>
+            <p><a href="javascript:" class="btn" id="btn7">运行</a></p>
+        </div>
+
+        <div class="group">
+            <div class="code">
+                <pre>
+$.photoViewer(src, lsrc);</pre>    
+            </div>
+            <div>
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxQTEhUUEhQVFBUUFRUXFRQUFBUUFBUUFBQXFhQVFBQYHCggGBolHBQVITEhJSkrLi4uFx8zODMsNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALEBHAMBIgACEQEDEQH/xAAcAAACAgMBAQAAAAAAAAAAAAAEBQIDAAEGBwj/xABAEAABAwMBBQYEBAQEBQUAAAABAAIRAwQhMQUSQVFhBhMicYGRMqGxwRRCUvAHYnLRIzOCkhVTc7LxJCWDwuH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A8SWwtBSCDYUgtBSCCQUgohTCDYCmFEKYQSaFYAoBWBBNqsaqwphAQwoim9BtKua5Awo1UfSuEmY9XtqoC69dBVHqNSoqHvQY8oeopOcoEoJbGfDnLvzRbT2KXjWpJPUk/wD4F5zYvhzl6LtR/wD7JSbzDfqUHK9mBu03H9Uoii7IPmVLY9CKAUqDemphAU4wACddR6lA97mCYAz0OSNfQA+avruyBxg+/BKq4l4HBomJ/mJOqChw3nkmcMyBiQHEtHsUpuagnSOes+SZMIbvl0neJaOkaD1En2SuoZyeOeqCoCVFbZJiPZORsfdEVCN7HhBk5E58kAVlTgQdTlF7s4jzWq1vuuAGc5RdKjGUCevTDSYS90kp1f2p3pGhVQpAIAKFGEQVlV2cLAgXBSC0FIINhSCipBBsKYWgthBIKwKAUwUEwphVgqYKCYU2qAUwgsBU2lVAqQKC9pVgchwVMOQTe5UuKtaJ5eqqcggtFbJUUA9D4yu52teb2zaDBzYPsuFbhxXoFvsp9WwoPa2WtLS7yG8ghRpbtKOgVbacQj7inDTHIIO4w0FABWfEnSAfY/dAPeP9QBLuuNPr7Iq6rHP08kpt/E505Jn5nJ9iUEL0wxw3clxgk9JEcdIS80yYAEkx7lNLwkTggyRnOpA+kIzZVsGAPdqefvEIJ7N2EGAy7xtLd5xw0Bxy0cZ0UNoUhB3eLoBnOOnVGvu2ER4vMnjzSurVE+iCFOkNNOZ6rYr7pPTgqaleBhVsMlAQ4ySTohKohMWslsoO4bCAQtVRCtL1U/VAsaVMKorYKC4KYVQqLH1MoLwpAKLSphBsBSAWgpBBsBSC0FsIJgqQKgtoLAVMKoKxqCwKQUWqSDcqJWK2hQL5iAB8TnODGNn9T3EAffhKCkhRIRhvLSnqat0/9NP/AAKA/wDke01H+jG+aBuNtPdinRoUR/KzvHer6xefaEA7viK9o7HNnZLPI/VeIPr1CZLvkPsE1se1l7Rp93TrkU/+WWsc35tkeiD0G9GPNLb7AHQBc1T7aVTirTa7qyWH2Mg/JHHbtKsAGmHcnYPpwKCi4mJGQSfQaISwdFVvUxHmir0eADhP0yhtlQKocRhrt4gcQOCC6vSAe7e033Y5eID6zhEViXEYhoHhHHPPqonxHxASXEnmTJOR7oc1DUcWsOATLv7IIOfLoZzyTyGMKu6pluEztqAp4GvEoTaWRPCfqgSPJBRllVz5oW4GVXSeQgdPfAhA3FSUZTIweiGuGCUAIMlWlihvAFSc5AnhbhW7oW+55IKQoFFdyVp1JBqiVeCh3YURVQGAqQKCFUqylVKAsKQVTHhbFYILgthRBW5QWBSCrBUpQWgrcqsFRrVt0T7DqglWrhozrwHP+wQNWq58b5wNG8B5D76quZ8Tskqy3oOqEngNTwCCBqcAAOvFWMs6jhO6YOhPhafInBTK2pNZ8IBP6nAE+gOB569Vc6SZJJPM5PugUf8ADnyB4ZOg325PTMLLrZdxSG9UpVGt/UWO3P8AdEfNNKTf8WmeTp9l7Zsof+iA5gIPnPvVskFOu2t/Sq3DhRpta1hLS4NAL3AkOJjhySEBAytNouHhd4m8CTkep1CaWd9SbJ32yZ4rmoUSgdbU2rOGERzBnUcPmnuymgUmQ2PCCQRmTxPU6rhSuv2XejuYJG83GfLwoGLdc8ihL+pggD0U31Z+HxTHstPEgnogSVtEO4IurkIVyAyxq+EjkseZOVXbEQpmnlAJVpZRAClUpSVvdQKAfoosd4SqJWIDg8+Ec1a1Ad6cdFsVygKvmYQMIyvWDm9VlTZtVrG1HUqjab/gqOY5rH8fA8iHeiAUIikSm+zeyletSfWZuBtPg5xDnECSGgCNOcICiA0EO1QCwtCnlN27CruoG4bRqmiDHe7ju7mY+KI1x54S0lBfbuyJ0XWhts+j4YDgPVce1yvDjwMIO37IbEa+majm7wkiYkawknaizFOtAEArt/4SsrXLKluzcDaQDnPcTjvCYEDUktd7JX2y2LcVrh9OjRfVfRnf7tpduwSOHkY5oOFBS6tU33dBoirtxDTwOn9/ugQIHmgspML3ADim7YADRoPmeJK6f+EnYqltB1YVarqe41paKe7vuDiQSN4EbogA44qvtl2Nr7PeBVh1Oo54pVGn4g043h+V0EGOpgmCg59i9h7J/wANLS5s6dZ1aqX1Gye7cwNY7i2C0mRocryO2tnPcA0E+S7Ls72dvqvgoiqym+Q5xLmUsDO8RhBze0Nm7ly+k14e2nUcwVBo4NcRvDzXrto3dtAOTR9FwO3+y1ayewVgIf8AC5rt5pgiRMAyJHDiu5ki0/0oPFu0vZ59Ks8gFzHOLmlonDjMEDQiYSJ1o/8AQ/8A2O/svStouLifRW2wAaeJ5ny4IPLqtu9olzHNzHiaW/VULve0Le8DWH8xMTzwAVwrmlpIOoJBHlgoKiU52fU3XDODAPklLB4gmSDordvxDQF2I5QrqwhsDgEBs6vvNE5LTA9dCUdXeA0k8kCSpog3Il7vmqHhBtlImIV9YEBX2QhmVqrSBQVMOFJY9nJaJQIa9FzHFrhDmnI/8KLnSrby4NR5eclxySqig0tgLQCObSPdkxogCXdbT7fV761oWdVlNrKAad5gIfUNNu4zUw3Bkxr0GFwwCk3VB2OyNtOp4BLmS0vpzDajWmS13QjHqmvbPbFDaVxSNCgaIZTLSPA1zySCBDcQ2DHmdFwrasBX7OuH74c0xB80HuHYHte+3tBbvptqGgC2mA7cc5urQ7UHWJH/AJ47sjscUb/8RfWofScaru73WvYx7zvNcKZMFrcgDhIOoSzYlw78QxziJkTyjyXo952mpU3N8O/HBrZQed9rthCrdV69tQ7mi50spwGwA0AkNGGy4EwOaQUtjVXEYAyB74Xrd524Y4brbd/ruj5ApX+JpVXNBbuSROg+iBP2d2TfWZNagXNBbDnMDoc3kcQVdsTtzdWLqzgxlU1okP3pD2zDpGT8RkceYXt1rtC37prd5u7ugbvovCu2tkDcv7gS0mcaSUHDbfa4lr3mXVnPe6BHiJk/NxSx/JOO01i+kaYqCC4OPzCUPQen9i+w9evTp1ae+wAAhzTumdcFdJ2msq106my7e97qRiA1rYDo33boEEkDXoup7EdqrVllQYXhpbSYIxruiUt7adqadM94wBx0HM8kHTbP2Vs+1aBRpU5I1jvHkY1e6SPKVDb3al1IAsZiRvGQTAOQBp0XiV122uqrsOFMcAwCfUnVDM7R3LyWue53mBHyCD1j+Im0bO5o0XU61N9TfG61rwXhjhLw5gPhghuo1EKkZtgB+leU7Lt3itvuB8REletU/wDIH9P2QcLdMgqqmMeqKvNUMHa9P7IFO3BBpO/S7T9+S5btTbbtbe4PE/6hh32Pquo7Rk7rI/V9ikfah29SpvP6vq0yJ45b80HODUeY+qZFKy5MN/RAZs+vuPBOnFHbQrghw449kmKvFbBxnGegQaDpWqip7zKt1QHUj4QoV3QEQKcAKm6pygroVJWOWWtAglRquygSELYUJWwUF1J4BR3/ABEQRCVoqnYOLd7gg0aoPBR3hwVBUgwoJudKLtbotwBKO7PWjXHxfv3XZVLWg0MDQJkckHH0LirIcGux0Kf223HNGWZ6r0ZtCgLfdDGzC8+urfeqkDGUERt536E82HsllwzvalUsIdloIENHPjlc1tMimQEGNqFplpQdhtfYVcVw61LnU4yN9xAPRJbvaFWi/wAbYgrtuyXaGaPiBmMpBttjLiqSfZBx/bXan4g03fp3h/ug/wD1XOu0T/b+zi3eAGmfbX5SkDTjyQdv2U7O3F0xtSkRujGeG7ghHbf2JcAhryPRBfw57R1KDKtKmRkh4BzqN1xHs33Ta7v6tR288klABszsroXuyn9vspjNIlKhcO5rRuHcygZ3TQIyNQuutqk0R/T9l5uHuc4TzC9Bt3f4X+n7IOdvQJS1wiUfcaz1QdbigV7Ynuz5j2XL7dqf4NITq5xjkBjPuuq2nR3mOHOPMmQuE2tX3nwDLWDdH3PuSgCKYMyB5BLymNAeEeSDcKQkLTRzUiUEN3KIt2+IclRKItNUDCo+VW4qLXzgKe7hBDvUNUElW1FVKBXdsa0w3KHKIr2pAB4IZBsJiy58EJctyg2St7yisQOtm3ADeRRjLvxCSkFKrwTTZv8AmNkSJGEHoez7p3dgSTjXJj1SG8ltQ5jrqnWz6+8N1gA01j3HFJLxkV92o7XRAp2oSTJMpcDn1XR7TtA+Aw/dS2fsVoyclA97ObRDaMbuY6qFOgS/fOFuhTjACLZRdyQWfhGOy7K8t21s829d9P8ALqwnjTOW/wBvQr1uhRJ1Sftd2eNxSlgmrTkt/mH5mfcdfNB5rY3TqNRtRmrTPQjiD6L0yyuqdwwVGaHUcWniCvLAcwfbijdl7Rfbv3mHHEcCOo4oPTDagKDrcLNibat7gCDuv4tP2P2Tj8MzkgWUqLZC6Og7wR0S8WgBwEYDg+SDnbuoAfVB1KmUY+iXOhoLiThoBJPkAk23b9lpIqEOq8KIIO71qEaeSATtPtIUqUNPjqYGdGnVy4RvVXXd06q8veZJ/cBS2fYvr1G0qY3nPMAfUnkAgpZTnPCY9df36JlaGBCP7QbObR3KbMinLXP/AFPPxH3B9AEtpoLIUCiKrMAodwQRJTDZVGZcfRLiEw2fXxCAprRJhQc5Wd4BKHLkFbjKgphR3kCTvTzUFixBtYtLaDFsK2haPf8AC0lMaWwKv5hHRAsaxMbOk+QWzgp1Z7Ca34imFOzA+FAba7QdugFuRxwoC1a8l5GfdX21AppSo40CAOlZjCY0bQDQK6k0Dgt9yZnPkgmGNByFbACi1hPBWupSMoNB+VLPNQY0DVWnoEHGdsOyHeTXtwN85fTH5/5m/wA3McfPXz4gtkOBBGCDgg8QRwXuBZGUo21sK3ucvaQ//mMw714O9UHk1N5BlhIPmn1j2zuaUB0PHUZ90RtPsLXZmkW1W8p3H+xx81z13Y1qUipTqM/qaQPfRB3dl/EiiB/i0KjnfyOa0aczK3V/ifTH+VZz/wBWqSPUMhebLEHXbS/iPe1GllNzLZh1bbsFMkHgX/Efdci4kmSSSdSckomhs+o/4WOPWIHucJzZ9mjG9UcBH5W5PvogRW1s55hok/vVdXsm1dby6m7xFpDnDDs5O7009kXb2zaYhrQB8/MnUqNdmZOk8OMiCTPQn9lAu20yW8DBGQfIZnzSYFPLumCx26RG7wM6EEEnidEhlAxtKZc3pxP0CpvaW6eiebG2c4UwSPiM/wBlm3rOKU8j9UHLuWUahBWnquUDllQFQeEJZ1uaKLkG2hQK2CoygRrAjKOz3HXCZ2uzmhAstdnPfwgcynNjshjcu8R66K8BrVsXHIeqBgyuGDAA8ln4slAgieaJptlBYySUdb0Z1wh6bSjaVWEDGyohvGUxpOSelWM4RLblA4FYDgoVKw1lLe+5ZWVapdgAIGdC4bOSSiJGuUroNHqihWKC6qOQ9VJmNXDyQoq58St70awgvaZVgYEC+4xjCj+MjBPzQGlw5KLpIx80OH51Cs/FiQN4IKnWrJ8VOmT1Y0/UKIDGkwxjcfla0fQIqtuk6pRtCsATBQIrp+T5qDXc9Dg+Sg92qqLkGV2EFwnTAPUaeiFuDiczwE4Hp+4+hrqktB4jB8uE/T1CArOmQYOCRnBxx90GniTmJOnKDpI0SCkS14ng4YPQ8U5PDJ0+oyQEovRuvPnPug7y02xSfgkNIjBxnokva7abSwU6eZMudw8kupNBAIOdTOvoVTtDxN8kC1uRCqK210Fafqg010I2lUwgCp0X5QGMcVKVgOFElAb30LQrOOmFSPRWMKC6mwcZRLGiNEO3KuY1BeyOCsDoVQeApuIQWi59FeLhCDdVzYhBeLvqrRU3o1CDc3yVkc0DKlVgarGbUA6pc18KupU5AIHdLaonQhFC7nQrmqdwVa24dzQP+8HOVCvfxAnHJI/xZ4lWCsgZm8A4fVVmt/L7oB92OapN5J4/NB0NOqAOCqddiUjbclT/ABUIGzbvOSUDeXOeKpN6EPXuZ4hBveyQqS5TrmSD0yqA6EG986Zz+/7KivT3ZnGDPTmBHA6ypirHn+9FCuN5snkQeuDun98kAjHGBETDcDgOCAvomQZkmekcEXo0TAIAz6Y89VTf0xuyBmdeY5wgusXSGk4DZ0WVIO9uAkcSeBQdpUAa6dVOxPxHhOQgCqiCokom/bkECJQiDJWpWlJtNxyGkjmASP3lARQerUKxjh+V3sdFfB/SfYoCzwVjND5LSxAVa6KVRYsQVtVrVixBeNApOWLEEaOqPasWIIqkcVixBW5WhYsQTPBXOW1iAepwV9usWINP1WnLSxBG40QrltYgm/h5KgrFiCI+5Wfkd5D/ALgsWIA73Qfvih774PRv1WLEANHj5Iiz0d5rFiCN8gVtYgiV0Wwf8tv/AFHf9hWLED9nwn+p31SbbHxj+hq2sQf/2Q==" data-src="http://pic.pp3.cn/uploads//allimg/111113/1646194Z3-3.jpg" class="img">
+            </div>
+            <p><a href="javascript:" class="btn" id="btn8">运行</a></p>
+        </div>
+        
+    </div>
+    <script>
+        $('#btn1').on('click', function() {
+            $.alert('哈喽，我是弹框');
+        })
+        $('#btn2').on('click', function() {
+            $.confirm('是否确认要执行此操作？', function(r) {
+                if(r) {
+                    $.alert('你点击了确定按钮');
+                } else {
+                    $.alert('你点击了取消按钮');
+                }
+            });
+        })
+        $('#btn3').on('click', function() {
+            $.confirm('点击确定按钮关闭此对话框', function(r) {
+                if(!r) {
+                    $.alert('你必须点击确认按钮才能关闭');
+                    return false
+                }
+            });
+        })
+
+        $('#btn4').on('click', function() {
+            $.dialog({
+                content: '请问你的性别是？',
+                animate: true,
+                btns: [
+                    {
+                        className: 'gender-m',
+                        text: '男',
+                        value: 'M'
+                    },
+                    {
+                        className: 'gender-f',
+                        text: '女',
+                        value: 'F'
+                    },
+                    {
+                        className: 'gender-unkown',
+                        text: '未知',
+                        value: 'Unkown'
+                    }
+                ],
+                btnFn: function(btn) {
+                    alert('你是' + btn.text + '的');
+                }
+            });
+        })
+
+        $('#btn5').on('click', function() {
+            var loading = $.loading();
+            setTimeout(function() {
+                loading.destroy();
+            }, 3000)
+        })
+
+        $('#btn6').on('click', function() {
+            $.success("操作已完成");
+        })
+
+        $('#btn7').on('click', function() {
+            $.error("操作失败，请重试");
+        })
+
+        $('#btn8, .img').on('click', function() {
+            var src = $('.img').attr('src');
+            var lsrc = $('.img').attr('data-src');
+            $.photoViewer(src, lsrc);
+        });
+
+        $('#btnDark').on('click', function() {
+            $.alert({
+                className: "warning-alert",
+                content: "通过设置弹框样式名称来自定义样式"
+            });
+        });
+
+        $('#btnDarkConfirm').on('click', function() {
+            $.confirm({
+                className: "exotic-confirm",
+                content: "通过设置弹框样式名称来自定义样式"
+            });
+        });
+
+        $('#btnStyle').on('click', function() {
+            $.dialog.customStyle('dark-style');
+            $.success('设置成功');
+        });
+
+        $('#btnDefaultStyle').on('click', function() {
+            $.dialog.customStyle('');
+            $.success('设置成功');
+        });
+    </script>
+</body>
+</html>
