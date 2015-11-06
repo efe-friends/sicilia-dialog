@@ -1,3 +1,20 @@
+/** 
+ * @Author: lichen
+ * @Date:   2015-10-28 17:40:43
+ * @Last Modified by:   lichen
+ * @Last Modified time: 2015-11-06 15:27:40
+ *
+ * dialog.js(mobile)
+ * 基于dialog的ui组件，包含：
+ *   - dialog
+ *   - alert
+ *   - confirm
+ *   - loading
+ *   - success、error
+ *   - photoViewer
+ * 依赖zepto(or jQuery)、artTemplate
+ */ 
+
 'use strict';
 
 (function(exports, $, template) {
