@@ -6,7 +6,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>弹框示例</title>
-    <link rel="stylesheet" href="../src/dialog.css">
     <style>
         * {
             margin: 0;
@@ -136,7 +135,6 @@
             border-right: none;
             background-color: #F5D225;
         }
-
         .exotic-confirm {
             padding: 0 .3rem;
         }
@@ -158,7 +156,7 @@
     </style>
     <script src="http://h5.edaijia.cn/core/libs/zepto.min.js"></script>
     <script src="http://h5.edaijia.cn/core/utils/artTemplate.js"></script>
-    <script src="../src/dialog.js?t=21312"></script>
+    <script src="../build/dialog-all.js"></script>
 </head>
 <body>
     <div class="container">
@@ -185,6 +183,7 @@ $.alert('哈喽，我是弹框');</pre>
             <div class="code">
                 <pre>
 $.alert({
+    animate: true,
     className: "warning-alert",
     content: "通过设置弹框样式名称来自定义样式"
 });</pre>   
@@ -371,6 +370,7 @@ $.photoViewer(src, lsrc);</pre>
 
         $('#btnDark').on('click', function() {
             $.alert({
+                animate: true,
                 className: "warning-alert",
                 content: "通过设置弹框样式名称来自定义样式"
             });

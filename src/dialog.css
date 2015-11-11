@@ -1,4 +1,8 @@
 /* modal */
+.modal-select-none-helper {
+    -webkit-user-select: none;
+    user-select: none;
+} 
 .global-modal {
     position: fixed;
     top: 0;
@@ -11,19 +15,17 @@
     background: #999;
     background: rgba(0, 0, 0, .2);
     box-sizing: border-box;
-    -webkit-user-select: none;
-    user-select: none;
     z-index: 1000;
 }
 .global-modal a, .global-modal button, .global-modal img {
     outline: none;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent; 
+    user-select: none; 
+    -webkit-tap-highlight-color: transparent;
 }
 .global-modal:before {
-    content: " ";
+    content: " "; 
     display: inline-block;
     height: 100%;
     width: 0;
@@ -40,10 +42,13 @@
     overflow: hidden;
 }
 .modal-animate .modal-dialog {
+    -webkit-transition: -webkit-transform .4s;
     transition: transform .4s;
+    -webkit-transform: translateY(-999px);
     transform: translateY(-999px);
 }
 .modal-animate .dialog-animate-show {
+    -webkit-transform: translateY(0);
     transform: translateY(0);
 }
 .global-modal .modal-body {
