@@ -1,293 +1,302 @@
-/** 
- * @Author: lichen
- * @Date:   2015-10-28 17:40:43
- * @Last Modified by:   lichen
- * @Last Modified time: 2015-11-11 11:39:02
- *
- * dialog.js(mobile)
- * 基于dialog的ui组件，包含：
- *   - dialog
- *   - alert
- *   - confirm
- *   - loading
- *   - success、error
- *   - photoViewer
- * 依赖zepto(or jQuery)、artTemplate
- */ 
+/**
+* dialog.js(mobile)，依赖zepto(or jQuery)
+* 基于dialog的ui组件，包含：
+*   - dialog
+*   - alert
+*   - confirm
+*   - loading
+*   - success、error
+*   - photoViewer
+*/
 
-'use strict';
+(function(exports, $) {
 
-(function(exports, $, template) {
+	'use strict';
 
-    var noop = $.noop || function() {};
+	var noop = $.noop || function() {};
 
-    var defaults = {
-        className: '',
-        content: '',
-        animate: false,
-        btns: [],
-        btnFn: noop,
-        close: noop,
-        beforeClose: noop,
-        shown: noop
-    };
+	var defaults = {
+		className: '',
+		content: '',
+		animate: false,
+		btns: [],
+		btnFn: noop,
+		close: noop,
+		beforeClose: noop,
+		shown: noop
+	};
 
-    var instanceCount = 0;
+	var instanceCount = 0;
 
-    var customStyleName = '';
+	var customStyleName = '';
 
-    var tmpl = [
-        '<div class="global-modal',
-            '{{customStyleName ? " " + customStyleName : ""}}',
-            '{{className ? " " + className : ""}}',
-            '{{animateClass ? " " + animateClass : ""}}',
-        '">',
-            '<div class="modal-dialog">',
-                '<div class="modal-body">',
-                    '{{#content}}',
-                '</div>',
-                '{{if btns.length}}',
-                '<div class="modal-footer">',
-                    '{{each btns}}',
-                    '<div class="flex">',
-                        '<button class="modal-btn{{$value.className? " " + $value.className : ""}}">{{$value.text}}</button>',
-                    '</div>',
-                    '{{/each}}',
-                '</div>',
-                '{{/if}}',
-            '</div>',
-        '</div>'].join('');
+	var render = function(option) {
+		var modalFooter = '';
 
-    var render = template.compile(tmpl);
+		if(option.btns.length) {
+			var modalFooterBtns = '';
 
-    var Dialog = function(option) {
-        this.option = $.extend({}, defaults, option);
-        this.option.customStyleName = customStyleName;
+			for(var i = 0, len = option.btns.length; i < len; i++) {
+				var btn = option.btns[i];
+				modalFooterBtns += [
+					'<div class="flex">',
+						'<button class="modal-btn',
+							(btn.className ? " " + btn.className : ""),
+						'">',
+							btn.text,
+						'</button>',
+					'</div>'].join('');
+			}
 
-        if(this.option.animate) {
-            this.option.animateClass = 'modal-animate';
-        }
+			modalFooter = [
+				'<div class="modal-footer">',
+					modalFooterBtns,
+				'</div>'].join('');
+		}
 
-        this.$modal = $(render(this.option)).appendTo($('body'));
+		return [
+			'<div class="global-modal',
+				option.customStyleName ? " " + option.customStyleName : "",
+				option.className ? " " + option.className : "",
+				option.animateClass ? " " + option.animateClass : "",
+			'">',
+				'<div class="modal-dialog">',
+					'<div class="modal-body">',
+						option.content,
+					'</div>',
+					modalFooter,
+				'</div>',
+			'</div>'].join('');
+	};
 
-        $(document.body).addClass('modal-select-none-helper');
+	var Dialog = function(option) {
+		this.option = $.extend({}, defaults, option);
+		this.option.customStyleName = customStyleName;
 
-        this.option.shown();
+		if (this.option.animate) {
+			this.option.animateClass = 'modal-animate';
+		}
 
-        var self = this;
+		this.$modal = $(render(this.option)).appendTo($('body'));
 
-        if(this.option.animate) {
-            setTimeout(function() {
-                self.$modal.find('.modal-dialog').addClass('dialog-animate-show');
-            }, 10);
-        }
+		$(document.body).addClass('modal-select-none-helper');
 
-        if(this.option.btns.length) {
-            this._bindBtnTap();
-        }
-        
-        instanceCount ++;
-    };
+		this.option.shown();
 
-    Dialog.prototype._bindBtnTap = function() {
-        var self = this;
-        this.$modal.find('.modal-footer .modal-btn').on('click', function() {
-            var index = $(this).parent().index();
-            var btn = self.option.btns[index];
-            if(self.option.btnFn(btn) !== false) {
-                self.destroy();
-            }
-        });
-    };
+		var self = this;
 
-    Dialog.prototype.destroy = function() {
-        if(this.option.beforeClose() !== false) {
-            if(instanceCount === 1) {
-                $(document.body).removeClass('modal-select-none-helper');
-            }
+		if (this.option.animate) {
+			setTimeout(function() {
+				self.$modal.find('.modal-dialog').addClass('dialog-animate-show');
+			}, 20);
+		}
 
-            this.$modal.remove();
-            this.option.close();
-            instanceCount --;
-        }
-    };
+		if (this.option.btns.length) {
+			this._bindBtnTap();
+		}
 
-    exports.dialog = function(option) {
-        return new Dialog(option);
-    };
+		instanceCount++;
+	};
 
-    exports.dialog.customStyle = function(styleName) {
-        customStyleName = styleName;
-    }
+	Dialog.prototype._bindBtnTap = function() {
+		var self = this;
+		this.$modal.find('.modal-footer .modal-btn').on('click', function() {
+			var index = $(this).parent().index();
+			var btn = self.option.btns[index];
+			if (self.option.btnFn(btn) !== false) {
+				self.destroy();
+			}
+		});
+	};
 
-    exports.dialog.insertStyleHelper = function(css) {
-        if($('title').length) {
-            $('title').after($('<style>').text(css));
-        } else {
-            $('head').prepend($('<style>').text(css));
-        }
-    }
+	Dialog.prototype.destroy = function() {
+		if (this.option.beforeClose() !== false) {
+			if (instanceCount === 1) {
+				$(document.body).removeClass('modal-select-none-helper');
+			}
 
-    exports.alert = function(content, fn) {
-        var option = {
-            content: content,
-            btns: [{
-                text: '确定',
-                value: true
-            }],
-            btnFn: function(btn) {
-                if(typeof fn === 'function') {
-                    fn(btn);
-                }
-            }
-        };
+			this.$modal.remove();
+			this.option.close();
+			instanceCount--;
+		}
+	};
 
-        if(typeof content === 'object') {
-            content.btns = option.btns;
-            $.extend(option, content);
-        }
+	exports.dialog = function(option) {
+		return new Dialog(option);
+	};
 
-        return exports.dialog(option);
-    };
+	exports.dialog.customStyle = function(styleName) {
+		customStyleName = styleName;
+	};
 
-    exports.confirm = function(content, fn) {
-        var option = {
-            content: content,
-            btns: [{
-                className: 'modal-btn-default',
-                text: '取消',
-                value: false
-            }, {
-                className: 'modal-btn-primary',
-                text: '确定',
-                value: true
-            }],
-            btnFn: function(btn) {
-                if(typeof fn === 'function') {
-                    return fn(btn.value);
-                }
-            }
-        };
+	exports.dialog.insertStyleHelper = function(css) {
+		if ($('title').length) {
+			$('title').after($('<style>').text(css));
+		} else {
+			$('head').prepend($('<style>').text(css));
+		}
+	};
 
-        if(typeof content === 'object') {
-            content.btns = option.btns;
-            $.extend(option, content);
-        }
+	exports.alert = function(content, fn) {
+		var option = {
+			content: content,
+			btns: [{
+				text: '确定',
+				value: true
+			}],
+			btnFn: function(btn) {
+				if (typeof fn === 'function') {
+					fn(btn);
+				}
+			}
+		};
 
-        return exports.dialog(option);
-    };
+		if (typeof content === 'object') {
+			content.btns = option.btns;
+			$.extend(option, content);
+		}
 
-    exports.loading = function(opt) {
-        var option = {
-            className: 'global-modal-loading',
-            content: [
-                '<div class="loading-dialog">',
-                    '<div class="spinner"></div>',
-                '</div>'
-            ].join(''),
-            btns: []
-        };
+		return exports.dialog(option);
+	};
 
-        if(typeof opt === 'object') {
-            if(opt.className) {
-                option.className = option.className + ' ' + opt.className;
-            }
-            option = $.extend(opt, option);
-        }
+	exports.confirm = function(content, fn) {
+		var option = {
+			content: content,
+			btns: [{
+				className: 'modal-btn-default',
+				text: '取消',
+				value: false
+			}, {
+				className: 'modal-btn-primary',
+				text: '确定',
+				value: true
+			}],
+			btnFn: function(btn) {
+				if (typeof fn === 'function') {
+					return fn(btn.value);
+				}
+			}
+		};
 
-        return exports.dialog(option);
-    };
+		if (typeof content === 'object') {
+			content.btns = option.btns;
+			$.extend(option, content);
+		}
 
-    $(['success', 'error']).each(function(i, name) {
-        exports[name] = function(msg, delay) {
-            var option = {
-                className: 'global-modal-message',
-                content: [
-                    '<div class="message-dialog ' + name + '">',
-                        typeof msg === 'object' ? msg.content : msg,
-                    '</div>'
-                ].join(''),
-                btns: []
-            };
+		return exports.dialog(option);
+	};
 
-            if(typeof msg === 'object') {
-                if(msg.className) {
-                    option.className = option.className + ' ' + msg.className;
-                }
-                option = $.extend(msg, option);
-            }
+	exports.loading = function(opt) {
+		var option = {
+			className: 'global-modal-loading',
+			content: [
+				'<div class="loading-dialog">',
+					'<div class="spinner"></div>',
+				'</div>'
+			].join(''),
+			btns: []
+		}
 
-            option.delay = option.delay || delay || 2000;
+		if (typeof opt === 'object') {
+			if (opt.className) {
+				option.className = option.className + ' ' + opt.className;
+			}
+			option = $.extend(opt, option);
+		}
 
-            var dialog = exports.dialog(option);
+		return exports.dialog(option);
+	};
 
-            if(typeof option.delay === 'number') {
-                setTimeout(function() {
-                    dialog.destroy();
-                }, option.delay);
-            }
+	$(['success', 'error']).each(function(i, name) {
+		exports[name] = function(msg, delay) {
+			var option = {
+				className: 'global-modal-message',
+				content: [
+					'<div class="message-dialog ' + name + '">',
+						typeof msg === 'object' ? msg.content : msg,
+					'</div>'
+				].join(''),
+				btns: []
+			};
 
-            return dialog;
-        };
-    });
+			if (typeof msg === 'object') {
+				if (msg.className) {
+					option.className = option.className + ' ' + msg.className;
+				}
+				option = $.extend(msg, option);
+			}
 
-    exports.photoViewer = function(src, lsrc) {
-        var option = {
-            className: 'global-modal-photo-viewer',
-            content: [
-                '<div class="img-wrap">',
-                    '<div class="spinner"></div>',
-                    '<img class="photo" src="' + src + '"/>',
-                 '</div>'
-            ].join('')
-        };
+			option.delay = option.delay || delay || 2000;
 
-        var dialog = exports.dialog(option);
+			var dialog = exports.dialog(option);
 
-        var img = new Image();
+			if (typeof option.delay === 'number') {
+				setTimeout(function() {
+					dialog.destroy();
+				}, option.delay);
+			}
 
-        img.onerror = function() {
-            exports.error('图片加载失败');
-            dialog.destroy();
-        };
+			return dialog;
+		};
+	});
 
-        img.onload = function() {
-            dialog.$modal.find('.spinner').remove();
-            dialog.$modal.find('.photo').attr('src', lsrc);
-        };
+	exports.photoViewer = function(src, lsrc) {
+		var option = {
+			className: 'global-modal-photo-viewer',
+			content: [
+				'<div class="img-wrap">',
+					'<div class="spinner"></div>',
+					'<img class="photo" src="' + src + '"/>',
+				'</div>'
+			].join('')
+		};
 
-        dialog.$modal.on('click', function() {
-            dialog.destroy();
-        });
+		var dialog = exports.dialog(option);
 
-        img.src = lsrc;
+		var img = new Image();
 
-        return dialog;
-    };
+		img.onerror = function() {
+			exports.error('图片加载失败');
+			dialog.destroy();
+		};
 
-    // border-width .5px support for iOS 8+
-    var halfPelBorderSupportCheck = function() {
-        if (window.devicePixelRatio && devicePixelRatio >= 2) {
-            var tempDiv = document.createElement('div');
-            tempDiv.style.position = 'absolute';
-            tempDiv.style.border = '.5px solid transparent';
-            document.body.appendChild(tempDiv);
-            var height = tempDiv.offsetHeight;
-            document.body.removeChild(tempDiv);
-            return height === 1;
-        }
-        return false;
-    };
+		img.onload = function() {
+			dialog.$modal.find('.spinner').remove();
+			dialog.$modal.find('.photo').attr('src', lsrc);
+		};
 
-    // 弹框时阻止手指滑动页面效果
-    $(function() {
-        $('body').on('touchmove', function (e) {
-            if(instanceCount > 0) {
-                e.preventDefault();
-            }
-        });
-        if(halfPelBorderSupportCheck()) {
-            $('body').addClass('half-pel-support-helper');
-        }
-    });
-})(window.$, window.$, window.template);
+		dialog.$modal.on('click', function() {
+			dialog.destroy();
+		});
+
+		img.src = lsrc;
+
+		return dialog;
+	};
+
+	// border-width .5px support for iOS 8+
+	var halfPelBorderSupportCheck = function() {
+		if (window.devicePixelRatio && devicePixelRatio >= 2) {
+			var tempDiv = document.createElement('div');
+			tempDiv.style.position = 'absolute';
+			tempDiv.style.border = '.5px solid transparent';
+			document.body.appendChild(tempDiv);
+			var height = tempDiv.offsetHeight;
+			document.body.removeChild(tempDiv);
+			return height === 1;
+		}
+		return false;
+	};
+
+	// 弹框时阻止手指滑动页面效果
+	$(function() {
+		$(document.body).on('touchmove', function(e) {
+			if (instanceCount > 0) {
+				e.preventDefault();
+			}
+		});
+		if (halfPelBorderSupportCheck()) {
+			$(document.body).addClass('half-pel-support-helper');
+		}
+	});
+})(window.$, window.$);
