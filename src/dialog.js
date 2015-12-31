@@ -47,7 +47,7 @@
 						'</button>',
 					'</div>'].join('');
 			}
-
+			
 			modalFooter = [
 				'<div class="modal-footer">',
 					modalFooterBtns,

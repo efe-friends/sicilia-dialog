@@ -36,8 +36,8 @@ var combineCSSAndJS = function() {
 	var timeStr = '[' + [hours, ':', minutes, ':', seconds].join('') + ']';
 
 	console.log(timeStr + ' dialog css and js combine success!');
-}
+};
 
 gulp.task('default', function() {
-  	gulp.watch(['src/dialog.css','src/dialog.js'], combineCSSAndJS);
+  gulp.watch(['src/dialog.css','src/dialog.js'], combineCSSAndJS);
 });
