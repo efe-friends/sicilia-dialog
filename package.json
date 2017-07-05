@@ -1,13 +1,14 @@
 {
-    "name": "sicilia-dialog",
-    "version": "0.1.0",
-    "maintainers": [
-      {
-        "name": "licheng",
-        "email": "licheng@edaijia-inc.cn"
-      }
-    ],
-    "devDependencies": {
-        "gulp": "*"
+  "name": "sicilia-dialog",
+  "version": "0.1.0",
+  "maintainers": [
+    {
+      "name": "licheng",
+      "email": "chen.ican@gmail.com"
     }
+  ],
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-uglify": "^3.0.0"
+  }
 }

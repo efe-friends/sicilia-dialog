@@ -26,6 +26,8 @@
 		shown: noop
 	};
 
+	var rootFontSize = (window.innerWidth > 640 ? 640 : window.innerWidth) / 64 * .625 * 16;
+
 	var instanceCount = 0;
 
 	var customStyleName = '';
@@ -55,7 +57,7 @@
 		}
 
 		return [
-			'<div class="global-modal',
+			'<div style="font-size:' + rootFontSize +  'px;" class="global-modal',
 				option.customStyleName ? " " + option.customStyleName : "",
 				option.className ? " " + option.className : "",
 				option.animateClass ? " " + option.animateClass : "",
@@ -191,7 +193,7 @@
 			className: 'global-modal-loading',
 			content: [
 				'<div class="loading-dialog">',
-					'<div class="spinner"></div>',
+					'<div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>',
 				'</div>'
 			].join(''),
 			btns: []
